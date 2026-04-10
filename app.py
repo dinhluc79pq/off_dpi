@@ -26,21 +26,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 # ================= INIT =================
-def init_db():
-    with app.app_context():
+@app.route("/init_db")
+def init_db_route():
+    try:
         db.create_all()
 
         # tạo admin
         if not User.query.filter_by(username="admin").first():
             admin = User(username="admin", password="admin", role="admin")
             db.session.add(admin)
-            db.session.commit()
 
-        # init config
+        # 🔥 THÊM ĐOẠN NÀY
         for d in DAYS:
             if not Config.query.filter_by(day=d).first():
                 db.session.add(Config(day=d, max_off=2))
+
         db.session.commit()
+        return "DB INIT DONE"
+
+    except Exception as e:
+        return str(e)
 
 # ================= PAGE =================
 @app.route("/")
