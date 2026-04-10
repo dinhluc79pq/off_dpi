@@ -130,7 +130,7 @@ def get_schedule():
 # ================= TIME RULE =================
 def is_time_allowed():
     now = datetime.datetime.now()
-    return now.weekday() == 4 and 9 <= now.hour < 20
+    return now.weekday() == 4 and 9 <= now.hour < 24
 
 
 # ================= REGISTER OFF =================
