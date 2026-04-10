@@ -37,11 +37,6 @@ def init_db():
                 db.session.add(Config(day=d, max_off=2))
         db.session.commit()
 
-@app.route("/init_db")
-def init_db():
-    db.create_all()
-    return "DB created!"
-
 # ================= PAGE =================
 @app.route("/")
 def login_page():
@@ -59,6 +54,11 @@ def admin_page():
 def user_page():
     return render_template("user.html")
 
+
+# @app.route("/init_db")
+# def init_db():
+#     db.create_all()
+#     return "DB created!"
 
 # ================= AUTH API =================
 @app.route("/api/register", methods=["POST"])
