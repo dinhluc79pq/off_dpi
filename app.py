@@ -14,6 +14,8 @@ app = Flask(__name__)
 app.config.from_pyfile("config.py")
 
 db.init_app(app)
+with app.app_context():
+    db.create_all()
 jwt = JWTManager(app)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL', "postgresql://user:CBIWQl1RRBiBrf0hSC6kDHONgNuILrSf@dpg-d7cbubm7r5hc73fncvjg-a.singapore-postgres.render.com/off_dpi")
