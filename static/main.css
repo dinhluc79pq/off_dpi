@@ -1,0 +1,63 @@
+body {
+    font-family: Arial;
+    background: #f4f6f9;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+    background: #f1f1f1;
+}
+
+/* trạng thái */
+.off {
+    background: #ffcccc;
+    color: #c0392b;
+    font-weight: bold;
+}
+
+.work {
+    background: #d4efdf;
+    color: #27ae60;
+}
+
+td {
+    transition: 0.2s;
+    border-top: none;
+}
+
+td:active {
+    transform: scale(0.95);
+}
+
+.container {
+    display: none;
+}

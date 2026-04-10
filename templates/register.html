@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-100">
+
+    <div class="bg-white p-6 rounded shadow w-80">
+        <h2 class="text-xl mb-4 text-center font-bold">Register</h2>
+
+        <input id="u" class="border p-2 w-full mb-2 rounded" placeholder="Username">
+        <input id="p" type="password" class="border p-2 w-full mb-2 rounded" placeholder="Password">
+
+        <button onclick="register()" class="bg-green-500 hover:bg-green-600 text-white w-full p-2 rounded">
+            Create Account
+        </button>
+
+        <div class="text-center mt-2">
+            <a href="/" class="text-blue-500 text-sm">Back to Login</a>
+        </div>
+    </div>
+
+    <script>
+        function register() {
+            let u = $("#u").val().trim();
+            let p = $("#p").val().trim();
+
+            if (!u || !p) {
+                alert("Please fill all fields");
+                return;
+            }
+
+            $.ajax({
+                url: "/api/register",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ username: u, password: p }),
+                success: function (res) {
+                    alert("Register success!");
+                    window.location = "/";
+                },
+                error: function (err) {
+                    alert(err.responseJSON?.msg || "Error");
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-100">
+
+    <div class="bg-white p-6 rounded shadow w-80">
+        <h2 class="text-xl mb-4">Login</h2>
+
+        <input id="u" class="border p-2 w-full mb-2" placeholder="Username">
+        <input id="p" type="password" class="border p-2 w-full mb-2" placeholder="Password">
+
+        <button onclick="login()" class="bg-blue-500 text-white w-full p-2">Login</button>
+
+        <a href="/register_page" class="text-blue-500 text-sm">Register</a>
+    </div>
+
+    <script>
+        function login() {
+            $.ajax({
+                url: "/api/login",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    username: $("#u").val(),
+                    password: $("#p").val()
+                }),
+                success: function (res) {
+                    localStorage.setItem("token", res.token)
+                    if (res.role === "admin") window.location = "/admin_page"
+                    else window.location = "/user_page"
+                }
+            })
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="text-xl mb-4 font-semibold">📅 Schedule</h2>
+
+<div class="bg-white p-4 rounded shadow overflow-x-auto">
+    <table class="w-full border text-sm" id="table"></table>
+</div>
+
+<div class="mt-4 flex gap-2">
+    <select id="day" class="border p-2 rounded">
+        <option>Thứ 2</option>
+        <option>Thứ 3</option>
+        <option>Thứ 4</option>
+        <option>Thứ 5</option>
+        <option>Thứ 6</option>
+        <option>Thứ 7</option>
+        <option>Chủ nhật</option>
+    </select>
+
+    <button onclick="reg()" 
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+        Register OFF
+    </button>
+</div>
+
+<script>
+    const DAYS = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"];
+
+    function load() {
+        $.ajax({
+            url: "/api/schedule",
+            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+            success: function (res) {
+
+                let html = "<tr class='bg-gray-200'><th class='p-2'>Name</th>";
+
+                DAYS.forEach(d => html += `<th class='p-2'>${d}</th>`);
+                html += "</tr>";
+
+                for (let u in res) {
+
+                    let user = res[u];
+
+                    html += `<tr><td class="p-2 font-medium">${u}</td>`;
+
+                    user.days.forEach(v => {
+
+                        let content = v === "OFF"
+                            ? "<span class='bg-red-500 text-white px-2 py-1 rounded text-xs'>OFF</span>"
+                            : "✔";
+
+                        html += `<td class="text-center border p-2">${content}</td>`;
+                    });
+
+                    html += "</tr>";
+                }
+
+                $("#table").html(html);
+            }
+        });
+    }
+
+    function reg() {
+        $.ajax({
+            url: "/api/register_off",
+            method: "POST",
+            headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+            contentType: "application/json",
+            data: JSON.stringify({ day: $("#day").val() }),
+            success: res => {
+                toast(res.msg, true);
+                load();
+            },
+            error: err => toast(err.responseJSON.msg, false)
+        });
+    }
+
+    load();
+</script>
+
+{% endblock %}

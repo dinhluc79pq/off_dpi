@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="flex h-screen">
+
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-900 text-white p-4 container">
+            <h2 class="text-xl font-bold">DPI System</h2>
+        </div>
+
+        <!-- Main -->
+        <div class="flex-1">
+
+            <div class="bg-white p-4 shadow flex justify-between">
+                <span>OFF Management</span>
+                <button onclick="logout()" class="text-red-500">Logout</button>
+            </div>
+
+            <div class="p-4">
+                {% block content %}{% endblock %}
+            </div>
+
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 hidden px-4 py-2 rounded text-white"></div>
+
+    <script>
+        function toast(msg, ok = true) {
+            $("#toast").text(msg)
+                .removeClass("bg-red-500 bg-green-500")
+                .addClass(ok ? "bg-green-500" : "bg-red-500")
+                .fadeIn().delay(2000).fadeOut();
+        }
+
+        function logout() {
+            localStorage.removeItem("token");
+            window.location = "/";
+        }
+    </script>
+
+</body>
+
+</html>
