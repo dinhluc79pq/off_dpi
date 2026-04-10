@@ -4,6 +4,7 @@ from flask_jwt_extended import (
     JWTManager, create_access_token,
     jwt_required, get_jwt_identity
 )
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 import datetime
 import traceback
@@ -15,10 +16,12 @@ app.config.from_pyfile("config.py")
 db.init_app(app)
 jwt = JWTManager(app)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URL', "postgresql://user:CBIWQl1RRBiBrf0hSC6kDHONgNuILrSf@dpg-d7cbubm7r5hc73fncvjg-a.singapore-postgres.render.com/off_dpi")
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "connect_args": {"sslmode": "require"}
 }
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 # ================= INIT =================
 def init_db():
